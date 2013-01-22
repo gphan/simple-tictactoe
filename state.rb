@@ -1,5 +1,6 @@
 require './board'
 
+# Represents a game state
 class State
   attr_reader :board
 
@@ -13,20 +14,24 @@ class State
     @computer_player = computer_player
   end
 
+  # Checks if the game state has a winner
   def winner?
     @board.winner?
   end
 
+  # Determines if its a human player's turn
   def human_turn?
     @current_player != @computer_player
   end
 
+  # Possible game states from possible free moves
   def branches
     @board.free_moves.map do |pos|
       move pos
     end.compact
   end
 
+  # Returns the game state after making a move
   def move pos
     new_board = nil
     next_player = @current_player == :x ? :o : :x
@@ -34,6 +39,7 @@ class State
     State.new new_board, next_player, @computer_player
   end
 
+  # Alpha-beta pruning of the min-max game tree
   def alpha_beta player = @current_player, alpha = -Float::INFINITY, beta = Float::INFINITY
     case @board.winner?
       when :x

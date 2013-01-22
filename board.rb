@@ -1,3 +1,4 @@
+# Represents an instance of the game board
 class Board
   attr_reader :last_move
 
